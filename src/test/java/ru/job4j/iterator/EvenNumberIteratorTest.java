@@ -15,7 +15,7 @@ public class EvenNumberIteratorTest {
 
     @Before
     public void setUp() {
-        it = new EvenNumberIterator(new int[] {1, 2, 3, 4, 5, 6, 7});
+        it = new EvenNumberIterator(new int[]{1, 2, 3, 4, 5, 6, 7});
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -40,14 +40,14 @@ public class EvenNumberIteratorTest {
     }
 
     @Test
-    public void  shouldReturnFalseIfNoAnyEvenNumbers() {
+    public void shouldReturnFalseIfNoAnyEvenNumbers() {
         it = new EvenNumberIterator(new int[]{1});
         assertThat(it.hasNext(), is(false));
     }
 
     @Test
     public void allNumbersAreEven() {
-        it = new EvenNumberIterator(new int[] {2, 4, 6, 8});
+        it = new EvenNumberIterator(new int[]{2, 4, 6, 8});
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(2));
         assertThat(it.hasNext(), is(true));
@@ -57,9 +57,10 @@ public class EvenNumberIteratorTest {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(8));
     }
+
     @Test
     public void all() {
-        it = new EvenNumberIterator(new int[] {2, 4});
+        it = new EvenNumberIterator(new int[]{2, 4});
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(2));
         assertThat(it.hasNext(), is(true));

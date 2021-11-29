@@ -26,18 +26,18 @@ public class EvenNumberIterator implements Iterator<Integer> {
     @Override
     public Integer next() {
         if (!hasNext()) {
-            throw  new NoSuchElementException();
+            throw new NoSuchElementException();
         }
         while (data[index] % 2 != 0) {
             index++;
         }
         /*входит и выполняется пока условие true
-        * циклом while(число % 2 != 0)
-        *{берём следующее число и сравниваем
-        * if число % 2 == 0 то return число
-        * else берём следующее число }
-        *
-        * */
+         * циклом while(число % 2 != 0)
+         *{берём следующее число и сравниваем
+         * if число % 2 == 0 то return число
+         * else берём следующее число }
+         *
+         * */
         int res = data[index];
         index++;
         return res;

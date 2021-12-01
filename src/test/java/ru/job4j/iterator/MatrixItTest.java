@@ -10,12 +10,12 @@ import static org.junit.Assert.*;
 public class MatrixItTest {
 
     @Test
-    public void when1El() {
+    public void when4El() {
         int[][] in = {
                 {1}
         };
         MatrixIt it = new MatrixIt(in);
-        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(1));
     }
 
     @Test

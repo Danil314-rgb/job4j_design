@@ -5,11 +5,6 @@ import java.util.*;
 public class GenericUsage {
 
     public static void main(String[] args) {
-        /*List<Person> p = List.of(new Person("name", 21, new Date(913716000000L)));
-        new GenericUsage().printInfo(p);
-
-        List<Programmer> prog = List.of(new Programmer("name", 21, new Date(913716000000L)));
-        new GenericUsage().printInfo(prog);*/
 
         List<? super Integer> list = new ArrayList<>();
         new GenericUsage().addAll(list);

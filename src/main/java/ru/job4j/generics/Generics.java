@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Generics {
 
-    public void printObject(List<?> list) {
+    /*public void printObject(List<?> list) {
         for (Iterator<?> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Текущий элемент: " + next);
@@ -25,6 +25,26 @@ public class Generics {
             Object next = it.next();
             System.out.println("Текущий элемент: " + next);
         }
+    }*/
+    public void printObject(List<Object> list) {
+        for (Iterator<Object> it = list.iterator(); it.hasNext();) {
+            Object next = it.next();
+            System.out.println("Текущий элемент: " + next);
+        }
+    }
+
+    public void printBoundedWildCard(List<Predator> list) {
+        for (Iterator<Predator> it = list.iterator(); it.hasNext();) {
+            Object next = it.next();
+            System.out.println("Текущий элемент: " + next);
+        }
+    }
+
+    public void printLowerBoundedWildCard(List<Predator> list) {
+        for (Iterator<Predator> it = list.iterator(); it.hasNext();) {
+            Object next = it.next();
+            System.out.println("Текущий элемент: " + next);
+        }
     }
 
     public static void main(String[] args) {
@@ -36,19 +56,19 @@ public class Generics {
         second.add(new Predator());
         third.add(new Tiger());
 
-        gen.printObject(first);
+        /*gen.printObject(first);
         gen.printObject(second);
-        gen.printObject(third);
+        gen.printObject(third);*/
         System.out.println();
 
-        gen.printBoundedWildCard(first);
+        /*gen.printBoundedWildCard(first);*/
         gen.printBoundedWildCard(second);
-        gen.printBoundedWildCard(third);
+        /*gen.printBoundedWildCard(third);*/
         System.out.println();
 
-        gen.printLowerBoundedWildCard(first);
+        /*gen.printLowerBoundedWildCard(first);*/
         gen.printLowerBoundedWildCard(second);
-        gen.printLowerBoundedWildCard(third);
+        /*gen.printLowerBoundedWildCard(third);*/
         System.out.println();
     }
 }

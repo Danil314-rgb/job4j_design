@@ -51,5 +51,4 @@ public class Generics {
         gen.printLowerBoundedWildCard(third);
         System.out.println();
     }
-
 }

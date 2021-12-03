@@ -12,4 +12,5 @@ public class Role extends Base {
     public String getName() {
         return name;
     }
+
 }

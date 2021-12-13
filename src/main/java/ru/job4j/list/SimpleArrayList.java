@@ -15,26 +15,28 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public void add(T value) {
-        if (size == container.length) {
-            container = Arrays.copyOf(container, container.length * 2);
-        }
+        incrementLengthArray();
         container[size] = value;
         size++;
         modCount++;
     }
 
+    public void incrementLengthArray() {
+        if (size == container.length) {
+            container = Arrays.copyOf(container, container.length * 2);
+        }
+    }
+
     @Override
     public T set(int index, T newValue) {
-        Objects.checkIndex(index, container.length);
-        T oldValue = container[index];
+        T oldValue = get(index);
         container[index] = newValue;
         return oldValue;
     }
 
     @Override
     public T remove(int index) {
-        Objects.checkIndex(index, container.length);
-        T removeValue = container[index];
+        T removeValue = get(index);
         System.arraycopy(container, index + 1, container, index, size - 1);
         container[size - 1] = null;
         size--;

@@ -3,42 +3,54 @@ package ru.job4j.linkedlist;
 import org.w3c.dom.Node;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleLinkedList<E> implements List<E> {
 
     private static class Node<E> {
         E item;
         Node<E> next;
+        Node<E> prev;
 
-        Node(E element, Node<E> next) {
+        Node(Node<E> prev, E element, Node<E> next) {
             this.item = element;
             this.next = next;
+            this.prev = prev;
+        }
+
+        public Node<E> getNext() {
+            return next;
         }
     }
 
-    private int size = 0;
+    transient  int size = 0;
+    transient Node<E> first;
+    transient Node<E> last;
+
     private int modCount = 0;
-    private Node<E> container;
-    private SimpleLinkedList<E> first;
-    private SimpleLinkedList<E> last;
 
     @Override
     public void add(E value) {
-        /*
-        Node newNOde = new Node(value);
-        Node walk = head;
-        while (walk.next != null) {
-            walk = walk.next;
+        final Node<E> l = last;
+        final Node<E> newNode = new Node<>(l, value, null);
+        last = newNode;
+        if (l == null) {
+            first = newNode;
+        } else {
+            l.next = newNode;
         }
-        walk.next = newNOde;
-*/
         modCount++;
         size++;
     }
 
     @Override
     public E get(int index) {
-        return null;
+        Objects.checkIndex(index, size);
+        Node<E> pref = first;
+        for (int i = 0; i <= index; i++) {
+            pref = pref.getNext();
+        }
+        return pref;
     }
 
     @Override

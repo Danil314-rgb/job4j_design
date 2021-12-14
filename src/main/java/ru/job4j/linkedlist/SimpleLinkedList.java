@@ -47,10 +47,12 @@ public class SimpleLinkedList<E> implements List<E> {
     public E get(int index) {
         Objects.checkIndex(index, size);
         Node<E> pref = first;
+        E res = pref.item;
         for (int i = 0; i <= index; i++) {
-            pref = pref.getNext();
+             res = pref.next.item;
+            /*return pref.next.item;*/
         }
-        return pref;
+        return res;
     }
 
     @Override

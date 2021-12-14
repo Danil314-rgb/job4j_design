@@ -22,6 +22,9 @@ public class SimpleArrayList<T> implements List<T> {
     }
 
     public void incrementLengthArray() {
+        if (container.length == 0) {
+            container = Arrays.copyOf(container, 10);
+        }
         if (size == container.length) {
             container = Arrays.copyOf(container, container.length * 2);
         }
@@ -46,7 +49,7 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        Objects.checkIndex(index, container.length);
+        Objects.checkIndex(index, size);
         return container[index];
     }
 

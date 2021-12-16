@@ -4,13 +4,11 @@ public class SimpleStack<T> {
 
     private ForwardLinked<T> linked = new ForwardLinked<>();
 
-    /*должен возвращать значение и удалять его из коллекции*/
     public T pop() {
-        return linked.deleteLast();
+        return linked.deleteFirst();
     }
 
-    /*помещает значение в коллекцию*/
     public void  push(T value) {
-        linked.add(value);
+        linked.addFirst(value);
     }
 }

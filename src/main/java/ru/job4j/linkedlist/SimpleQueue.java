@@ -9,7 +9,6 @@ public class SimpleQueue<T> {
 
     private int inCount = 0;
     private int outCount = 0;
-    private T res = null;
 
     public T poll() {
         if (inCount == 0 && outCount == 0) {
@@ -17,15 +16,13 @@ public class SimpleQueue<T> {
         }
         if (outCount == 0) {
             while (inCount != 0) {
-                res = in.pop();
-                out.push(res);
+                out.push(in.pop());
                 inCount--;
                 outCount++;
             }
         }
-        res = out.pop();
         outCount--;
-        return res;
+        return out.pop();
     }
 
     public void push(T value) {

@@ -7,16 +7,26 @@ public class SimpleQueue<T> {
     private final SimpleStack<T> in = new SimpleStack<>();
     private final SimpleStack<T> out = new SimpleStack<>();
 
-    int inCount = 0;
-    int outCount = 0;
+    private int inCount = 0;
+    private int outCount = 0;
+
+    private T res = null;
 
     /*должен возвращать первое значение и удалять его из коллекции*/
     public T poll() {
         if (inCount == 0 && outCount == 0) {
             throw new NoSuchElementException();
         }
-        T res = null;
-        if (outCount == 0) {
+
+         if (inCount == 0) { // поменять местами
+            while (outCount != 0) {
+                res = out.pop();
+                in.push(res);
+                outCount--;
+                inCount++;
+            }
+        }
+         if (outCount == 0) {
             while (inCount > 1) {
                 res = in.pop();
                 out.push(res);
@@ -27,7 +37,8 @@ public class SimpleQueue<T> {
                 res = in.pop();
                 inCount--;
             }
-        } else if (inCount == 0) {
+        }
+        /*else if (inCount == 0) {
             while (outCount > 1) {
                 res = out.pop();
                 in.push(res);
@@ -38,7 +49,7 @@ public class SimpleQueue<T> {
                 res = out.pop();
                 outCount--;
             }
-        }
+        }*/
         return res;
     }
 
@@ -51,5 +62,14 @@ public class SimpleQueue<T> {
         }
         out.push(value);
         outCount++;
+    }
+
+    public void revers() {
+        while (outCount != 0) {
+            res = out.pop();
+            in.push(res);
+            outCount--;
+            inCount++;
+        }
     }
 }

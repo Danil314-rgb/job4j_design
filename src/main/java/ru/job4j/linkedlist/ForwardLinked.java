@@ -19,6 +19,7 @@ public class ForwardLinked<T> implements Iterable<T> {
         }
     }
 
+    /*метод add*/
     public void addLast(T value) {
         Node<T> node = new Node<>(value, null);
         if (head == null) {
@@ -30,6 +31,24 @@ public class ForwardLinked<T> implements Iterable<T> {
             tail = tail.next;
         }
         tail.next = node;
+    }
+
+    public boolean revert() {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        Node<T> currentNode = head;
+        Node<T> nextNode = head;
+        Node<T> prevNode = null;
+
+        while (currentNode != null) {
+            nextNode = currentNode.next;
+            currentNode.next = prevNode;
+            prevNode = currentNode;
+            currentNode = nextNode;
+        }
+        head = prevNode;
+        return true;
     }
 
     public void addFirst(T value) {

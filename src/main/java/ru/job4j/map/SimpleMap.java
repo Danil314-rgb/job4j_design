@@ -16,11 +16,14 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean put(K key, V value) {
         expand();
-        int hashCode = hash(key);
-        int index = indexFor(hashCode);
-        boolean result = checkKey(key);
-        if (!checkKey(key) && table[index] == null) {
-            table[index] = new MapEntry<>(key, value);
+        int hashCodeNEW = key.hashCode();
+        int hashNEW = hash(hashCodeNEW);
+        int indexNEW = indexFor(hashCodeNEW);
+        /*int hashCode = hash(key);*/
+        /*int index = indexFor(hashCode);*/
+        boolean result = false;
+        if (table[indexNEW] == null) {
+            table[indexNEW] = new MapEntry<>(key, value);
             count++;
             result = true;
         }
@@ -30,21 +33,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
     private void expand() {
         if (LOAD_FACTOR <= (float) count / capacity) {
             capacity *= 2;
-            addInNewTableOldValue();
-        }
-    }
-
-    public void addInNewTableOldValue() {
-        table = new MapEntry[capacity];
-        for (MapEntry<K, V> entry : table) {
-            if (entry == null) {
-                continue;
+            table = new MapEntry[capacity];
+            for (MapEntry<K, V> entry : table) {
+                if (entry == null) {
+                    continue;
+                }
+                K tableKey = entry.key;
+                V tableValue = entry.value;
+                int hashCode = hash(tableKey);
+                int newIndex = indexFor(hashCode);
+                table[newIndex] = new MapEntry<>(tableKey, tableValue);
             }
-            K tableKey = entry.key;
-            V tableValue = entry.value;
-            int hashCode = hash(tableKey);
-            int newIndex = indexFor(hashCode);
-            table[newIndex] = new MapEntry<>(tableKey, tableValue);
         }
     }
 
@@ -62,19 +61,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
         }
     }
 
-    private boolean checkKey(K key) {
-        boolean result = false;
-        for (MapEntry<K, V> entry : table) {
-            if (entry == null) {
-                continue;
-            }
-            K tableKey = entry.key;
-            if (tableKey.equals(key)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+    private int hash(int hashCode) {
+        return 0;
     }
 
     private int hash(K key) {
@@ -87,8 +75,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        V result = null;
-        for (MapEntry<K, V> entry : table) {
+        /*for (MapEntry<K, V> entry : table) {
             if (entry == null) {
                 continue;
             }
@@ -98,23 +85,24 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 result = tableValue;
                 break;
             }
+        }*/
+        int hashCodeKey = hash(key);
+        int indexKey = indexFor(hashCodeKey);
+        V valueMap = null;
+        if (table[indexKey] != null && table[indexKey].key.equals(key)) {
+            valueMap = table[indexKey].value;
         }
-        return result;
+        return valueMap;
     }
 
     @Override
     public boolean remove(K key) {
         boolean result = false;
-        for (MapEntry<K, V> entry : table) {
-            if (entry == null) {
-                continue;
-            }
-            K tableKey = entry.key;
-            if (tableKey.equals(key)) {
-                addInNewTableOldValue(key);
-                result = true;
-                break;
-            }
+        int hashCodeKey = hash(key);
+        int indexKey = indexFor(hashCodeKey);
+        if (table[indexKey] != null && table[indexKey].key.equals(key)) {
+            addInNewTableOldValue(key);
+            result = true;
         }
         return result;
     }

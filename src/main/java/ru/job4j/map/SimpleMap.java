@@ -1,6 +1,8 @@
 package ru.job4j.map;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
@@ -13,23 +15,50 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
+        expand();
         int hashCode = hash(key);
         int index = indexFor(hashCode);
-        expand();
-        if (checkKey(key) || table[index] != null) {
-            return false;
+        boolean result = checkKey(key);
+        if (!checkKey(key) && table[index] == null) {
+            table[index] = new MapEntry<>(key, value);
+            count++;
+            result = true;
         }
-        table[index] = new MapEntry<>(key, value);
-        count++;
-        return true;
+        return result;
+    }
+
+    private void expand() {
+        if (LOAD_FACTOR <= (float) count / capacity) {
+            capacity *= 2;
+            addInNewTableOldValue();
+        }
     }
 
     public void addInNewTableOldValue() {
-        SimpleMap<K, V> newTable = new SimpleMap<>();
+        table = new MapEntry[capacity];
         for (MapEntry<K, V> entry : table) {
+            if (entry == null) {
+                continue;
+            }
             K tableKey = entry.key;
             V tableValue = entry.value;
-            newTable.put(tableKey, tableValue);
+            int hashCode = hash(tableKey);
+            int newIndex = indexFor(hashCode);
+            table[newIndex] = new MapEntry<>(tableKey, tableValue);
+        }
+    }
+
+    public void addInNewTableOldValue(K key) {
+        table = new MapEntry[capacity];
+        for (MapEntry<K, V> entry : table) {
+            if (entry == null || entry.key.equals(key)) {
+                continue;
+            }
+            K tableKey = entry.key;
+            V tableValue = entry.value;
+            int hashCode = hash(tableKey);
+            int newIndex = indexFor(hashCode);
+            table[newIndex] = new MapEntry<>(tableKey, tableValue);
         }
     }
 
@@ -48,42 +77,75 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return result;
     }
 
-    private void expand() {
-        if (LOAD_FACTOR <= count / capacity) {
-            capacity *= 2;
-            addInNewTableOldValue();
-        }
-    }
-
     private int hash(K key) {
         return key == null ? 0 : key.hashCode();
     }
 
     private int indexFor(int hash) {
-        int index = Math.abs(hash) % capacity;
-        return index;
+        return Math.abs(hash) % capacity;
     }
 
     @Override
     public V get(K key) {
+        V result = null;
         for (MapEntry<K, V> entry : table) {
+            if (entry == null) {
+                continue;
+            }
             K tableKey = entry.key;
             V tableValue = entry.value;
             if (tableKey.equals(key)) {
-                return tableValue;
+                result = tableValue;
+                break;
             }
         }
-        return null;
+        return result;
     }
 
     @Override
     public boolean remove(K key) {
-        return false;
+        boolean result = false;
+        for (MapEntry<K, V> entry : table) {
+            if (entry == null) {
+                continue;
+            }
+            K tableKey = entry.key;
+            if (tableKey.equals(key)) {
+                addInNewTableOldValue(key);
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     @Override
     public Iterator<K> iterator() {
-        return null;
+        modCount = count;
+
+        return new Iterator<K>() {
+            int i = 0;
+            @Override
+            public boolean hasNext() {
+                if (modCount != count) {
+                    throw new ConcurrentModificationException();
+                }
+                return count < capacity;
+            }
+
+            @Override
+            public K next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                K result = null;
+                if (table[i] != null) {
+                    result = table[i].key;
+                }
+                i++;
+                return result;
+            }
+        };
     }
 
     private static class MapEntry<K, V> {

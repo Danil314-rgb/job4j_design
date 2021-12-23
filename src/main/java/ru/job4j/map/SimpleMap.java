@@ -95,6 +95,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
         return new Iterator<K>() {
             int i = 0;
+
             @Override
             public boolean hasNext() {
                 if (modCount != count) {

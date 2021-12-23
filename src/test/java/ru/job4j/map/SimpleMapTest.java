@@ -120,7 +120,7 @@ public class SimpleMapTest {
         assertFalse(iterator.hasNext());
     }
 
-    @Test (expected = ConcurrentModificationException.class)
+    @Test(expected = ConcurrentModificationException.class)
     public void whenIteratorConcurrent() {
         SimpleMap<Integer, Integer> map = new SimpleMap<>();
         map.put(1, 1);
@@ -130,7 +130,7 @@ public class SimpleMapTest {
         assertThat(iterator.next(), is(1));
         assertTrue(iterator.hasNext());
         assertThat(iterator.next(), is(2));
-        map.put(3,1);
+        map.put(3, 1);
         assertFalse(iterator.hasNext());
     }
 }

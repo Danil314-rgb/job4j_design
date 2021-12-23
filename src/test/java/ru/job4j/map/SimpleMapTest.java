@@ -99,7 +99,6 @@ public class SimpleMapTest {
         map.put(2, 1);
         map.put(3, 1);
         Iterator<Integer> iterator = map.iterator();
-        assertNull(iterator.next());
         assertThat(iterator.next(), is(1));
         assertTrue(iterator.hasNext());
         assertThat(iterator.next(), is(2));
@@ -112,7 +111,6 @@ public class SimpleMapTest {
         map.put(2, 1);
         map.put(3, 1);
         Iterator<Integer> iterator = map.iterator();
-        assertNull(iterator.next());
         assertThat(iterator.next(), is(1));
         assertThat(iterator.next(), is(2));
         assertTrue(iterator.hasNext());
@@ -126,7 +124,6 @@ public class SimpleMapTest {
         map.put(1, 1);
         map.put(2, 1);
         Iterator<Integer> iterator = map.iterator();
-        assertNull(iterator.next());
         assertThat(iterator.next(), is(1));
         assertTrue(iterator.hasNext());
         assertThat(iterator.next(), is(2));

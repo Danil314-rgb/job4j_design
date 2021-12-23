@@ -3,6 +3,7 @@ package ru.job4j.map;
 import org.junit.Test;
 
 import javax.swing.*;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import static org.hamcrest.core.Is.is;
@@ -102,5 +103,34 @@ public class SimpleMapTest {
         assertThat(iterator.next(), is(1));
         assertTrue(iterator.hasNext());
         assertThat(iterator.next(), is(2));
+    }
+
+    @Test
+    public void whenIteratorNext() {
+        SimpleMap<Integer, Integer> map = new SimpleMap<>();
+        map.put(1, 1);
+        map.put(2, 1);
+        map.put(3, 1);
+        Iterator<Integer> iterator = map.iterator();
+        assertNull(iterator.next());
+        assertThat(iterator.next(), is(1));
+        assertThat(iterator.next(), is(2));
+        assertTrue(iterator.hasNext());
+        assertThat(iterator.next(), is(3));
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test (expected = ConcurrentModificationException.class)
+    public void whenIteratorConcurrent() {
+        SimpleMap<Integer, Integer> map = new SimpleMap<>();
+        map.put(1, 1);
+        map.put(2, 1);
+        Iterator<Integer> iterator = map.iterator();
+        assertNull(iterator.next());
+        assertThat(iterator.next(), is(1));
+        assertTrue(iterator.hasNext());
+        assertThat(iterator.next(), is(2));
+        map.put(3,1);
+        assertFalse(iterator.hasNext());
     }
 }

@@ -12,15 +12,13 @@ public class SimpleTree<E> implements Tree<E> {
 
     @Override
     public boolean add(E parent, E child) {
-        boolean rsl = false;
         Optional<Node<E>> par = findBy(parent);
         Optional<Node<E>> chi = findBy(child);
-        if (par.isPresent() && chi.isEmpty()) {
-            Node<E> children = new Node<>(child);
-            par.get().children.add(children);
-            rsl = true;
+        boolean result = par.isPresent() && chi.isEmpty();
+        if (result) {
+            par.get().children.add(new Node<>(child));
         }
-        return rsl;
+        return result;
     }
 
     public boolean isBinary() {

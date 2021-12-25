@@ -27,12 +27,12 @@ public class SimpleTree<E> implements Tree<E> {
 
     @Override
     public Optional<Node<E>> findBy(E value) {
-        return Optional.ofNullable(findByPredicate(el -> el.value.equals(value)).orElse(null));
+        return findByPredicate(el -> el.value.equals(value));
     }
 
-    private Optional<Node> findByPredicate(Predicate<Node<E>> condition) {
+    private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
         Queue<Node<E>> data = new LinkedList<>();
-        Optional<Node> rsl = Optional.empty();
+        Optional<Node<E>> rsl = Optional.empty();
         data.offer(this.root);
         while (!data.isEmpty()) {
             Node<E> el = data.poll();

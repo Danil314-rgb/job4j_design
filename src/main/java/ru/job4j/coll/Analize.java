@@ -2,9 +2,8 @@ package ru.job4j.coll;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Analize {
 
@@ -19,12 +18,11 @@ public class Analize {
         int deleted = 0;
 
         for (var item : current) {
-            int size = map.size();
             String value = map.get(item.getId());
-            map.put(item.getId(), item.getName());
-            if (size != map.size()) {
+            /*String ret =  map.put(item.getId(), item.getName());*/
+            if (Objects.equals(map.put(item.getId(), item.getName()), "-1")) {
                 added++;
-            } else if (!map.get(item.getId()).equals(value)) {
+            } else if (!Objects.equals(map.get(item.getId()), value)) {
                 changed++;
             }
         }

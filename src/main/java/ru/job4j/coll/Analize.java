@@ -83,8 +83,8 @@ public class Analize {
         User u5 = new User(5, "C");
         Set<User> previous = Set.of(u1, u2, u3);
         Set<User> current = Set.of(u1, u2, u3);
-        System.out.println(added(previous, current)); //0
-        System.out.println(changed(previous, current)); //1
-        System.out.println(deleted(previous, current)); // 0
+        System.out.println(added(previous, current));
+        System.out.println(changed(previous, current));
+        System.out.println(deleted(previous, current));
     }
 }

@@ -19,8 +19,8 @@ public class Analize {
 
         for (var item : current) {
             String value = map.get(item.getId());
-            /*String ret =  map.put(item.getId(), item.getName());*/
-            if (Objects.equals(map.put(item.getId(), item.getName()), "-1")) {
+            String ret =  map.put(item.getId(), item.getName());
+            if (ret == null) {
                 added++;
             } else if (!Objects.equals(map.get(item.getId()), value)) {
                 changed++;

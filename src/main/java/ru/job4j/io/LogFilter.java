@@ -22,7 +22,9 @@ public class LogFilter {
                         new FileOutputStream(file)
 
                 ))) {
-            out.println(log);
+            for (String item : log) {
+                out.println(item);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

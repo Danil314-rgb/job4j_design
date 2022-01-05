@@ -17,17 +17,41 @@ public class ConfigTest {
 
     @Test
     public void whenWithComment() {
-        String path = "append.properties";
+        String path = "app.properties";
         Config config = new Config(path);
         config.load();
         assertThat(config.value("hibernate.connection.username"), is("postgres"));
     }
 
-    /*@Test (expected = IllegalArgumentException.class)
-    public void whenPairWithoutComment2() {
+    @Test (expected = IllegalArgumentException.class)
+    public void whenKeyIsNull() {
         String path = "app.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.connection.username"), is("postgres"));
-    }*/
+        assertThat(config.value("username"), is("postgres"));
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void whenValueIsNull() {
+        String path = "app.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("hibernate.connection.password"), is("123"));
+    }
+
+    @Test /*(expected = IllegalArgumentException.class)*/
+    public void whenNoInvalidValue() {
+        String path = "app.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("hibernate.age"), is(""));
+    }
+
+    @Test /*(expected = IllegalArgumentException.class)*/
+    public void whenNoInvalidKey() {
+        String path = "app.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("hibernate.login"), is("login"));
+    }
 }

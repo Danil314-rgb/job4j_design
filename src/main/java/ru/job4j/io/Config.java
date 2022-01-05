@@ -29,6 +29,10 @@ public class Config {
     }
 
     public String value(String key) {
+        if (!map.containsKey(key) || map.get(key) == null
+        || map.get(key).contains("=")) {
+            throw new IllegalArgumentException();
+        }
         return map.get(key);
     }
 

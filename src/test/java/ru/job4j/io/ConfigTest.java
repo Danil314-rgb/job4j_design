@@ -9,7 +9,7 @@ public class ConfigTest {
 
     @Test
     public void whenPairWithoutComment() {
-        String path = "app.properties";
+        String path = "./resources/first.properties";
         Config config = new Config(path);
         config.load();
         assertThat(config.value("hibernate.connection.username"), is("postgres"));
@@ -17,7 +17,7 @@ public class ConfigTest {
 
     @Test
     public void whenWithComment() {
-        String path = "app.properties";
+        String path = "./resources/second.properties";
         Config config = new Config(path);
         config.load();
         assertThat(config.value("hibernate.connection.username"), is("postgres"));
@@ -25,23 +25,23 @@ public class ConfigTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void whenKeyIsNull() {
-        String path = "app.properties";
+        String path = "./resources/third.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("username"), is("postgres"));
+        assertThat(config.value("hibernate.connection.lastname"), is(""));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void whenValueIsNull() {
-        String path = "app.properties";
+        String path = "./resources/fourth.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.connection.password"), is("123"));
+        assertThat(config.value("hibernate.age"), is(""));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void whenNoInvalidValue() {
-        String path = "app.properties";
+        String path = "./resources/fifth.properties";
         Config config = new Config(path);
         config.load();
         assertThat(config.value("hibernate.age"), is(""));
@@ -49,9 +49,9 @@ public class ConfigTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void whenNoInvalidKey() {
-        String path = "app.properties";
+        String path = "./resources/sixth.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.login"), is("login"));
+        assertThat(config.value("hibernate.login"), is(""));
     }
 }

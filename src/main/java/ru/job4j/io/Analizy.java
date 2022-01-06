@@ -8,20 +8,19 @@ public class Analizy {
 
     public void unavailable(String source) {
         try (BufferedReader in = new BufferedReader(new FileReader(source))) {
-
-                byte isWork = 0;
-                while (in.ready()) {
-                    String[] split = in.readLine().split(" ");
-                    if (isWork == 0 && split[0].equals("400") || isWork == 0 && split[0].equals("500")) {
-                        str.append(split[1]);
-                        isWork++;
-                    } else if (isWork != 0 && split[0].equals("200") || isWork != 0 && split[0].equals("300")) {
-                        str.append(";");
-                        str.append(split[1]);
-                        isWork = 0;
-                    }
+            byte isWork = 0;
+            while (in.ready()) {
+                String[] split = in.readLine().split(" ");
+                if (isWork == 0 && split[0].equals("400") || isWork == 0 && split[0].equals("500")) {
+                    str.append(split[1]);
+                    str.append(";");
+                    isWork++;
+                } else if (isWork != 0 && split[0].equals("200") || isWork != 0 && split[0].equals("300")) {
+                    str.append(split[1]);
+                    str.append("-");
+                    isWork = 0;
                 }
-
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,7 +28,10 @@ public class Analizy {
 
     public void print(StringBuilder str, String target) {
         try (PrintWriter out = new PrintWriter(target)) {
-            out.println(str);
+            String[] split = str.toString().split("-");
+            for (String item : split) {
+                out.println(item);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

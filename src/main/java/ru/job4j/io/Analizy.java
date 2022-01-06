@@ -4,11 +4,12 @@ import java.io.*;
 
 public class Analizy {
 
-    public static void unavailable(String source, String target) {
+    private StringBuilder str = new StringBuilder();
+
+    public void unavailable(String source) {
         try (BufferedReader in = new BufferedReader(new FileReader(source))) {
-            try (PrintWriter out = new PrintWriter(target)) {
+
                 byte isWork = 0;
-                StringBuilder str = new StringBuilder();
                 while (in.ready()) {
                     String[] split = in.readLine().split(" ");
                     if (isWork == 0 && split[0].equals("400") || isWork == 0 && split[0].equals("500")) {
@@ -18,19 +19,25 @@ public class Analizy {
                         str.append(";");
                         str.append(split[1]);
                         isWork = 0;
-                        out.println(str);
-                        str = new StringBuilder();
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void print(StringBuilder str, String target) {
+        try (PrintWriter out = new PrintWriter(target)) {
+            out.println(str);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        unavailable("server.txt", "unavailable.csv");
+        Analizy analizy = new Analizy();
+        analizy.unavailable("./resources/server.txt");
+        analizy.print(analizy.str, "./resources/unavailable.csv");
     }
 }

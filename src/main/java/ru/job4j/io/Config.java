@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class Config {
 
     private final String path;
-    private  Map<String, String> map = new HashMap<String, String>();
+    private Map<String, String> map = new HashMap<String, String>();
 
     public Config(final String path) {
         this.path = path;
@@ -20,6 +20,7 @@ public class Config {
                 new FileReader(path))) {
             map = in.lines()
                     .filter(s -> !s.isEmpty() && !s.startsWith("#"))
+                    .filter(s -> s.indexOf("=") == s.lastIndexOf("="))
                     .map(str -> str.split("="))
                     .filter(s -> s.length > 1)
                     .collect(Collectors.toMap(str -> str[0], str -> str[1]));
@@ -29,8 +30,7 @@ public class Config {
     }
 
     public String value(String key) {
-        if (!map.containsKey(key) || map.get(key) == null
-        || map.get(key).contains("=")) {
+        if (!map.containsKey(key)) {
             throw new IllegalArgumentException();
         }
         return map.get(key);
@@ -45,11 +45,5 @@ public class Config {
             e.printStackTrace();
         }
         return out.toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Config("app.properties"));
-        System.out.println();
-        new Config("app.properties").load();
     }
 }

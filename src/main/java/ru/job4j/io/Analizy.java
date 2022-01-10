@@ -6,7 +6,7 @@ public class Analizy {
 
     private StringBuilder str = new StringBuilder();
 
-    public void unavailable(String source) {
+    public void unavailable(StringBuilder str, String source) {
         try (BufferedReader in = new BufferedReader(new FileReader(source))) {
             byte isWork = 0;
             while (in.ready()) {
@@ -39,7 +39,7 @@ public class Analizy {
 
     public static void main(String[] args) {
         Analizy analizy = new Analizy();
-        analizy.unavailable("./resources/server.txt");
+        analizy.unavailable(analizy.str, "./resources/server.txt");
         analizy.print(analizy.str, "./resources/unavailable.csv");
     }
 }

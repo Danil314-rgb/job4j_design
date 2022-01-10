@@ -11,11 +11,11 @@ public class Analizy {
             byte isWork = 0;
             while (in.ready()) {
                 String[] split = in.readLine().split(" ");
-                if (isWork == 0 && split[0].equals("400") || isWork == 0 && split[0].equals("500")) {
+                if (isWork == 0 && "400".equals(split[0]) || isWork == 0 && "500".equals(split[0])) {
                     str.append(split[1]);
                     str.append(";");
                     isWork++;
-                } else if (isWork != 0 && split[0].equals("200") || isWork != 0 && split[0].equals("300")) {
+                } else if (isWork != 0 && "200".equals(split[0]) || isWork != 0 && "500".equals(split[0])) {
                     str.append(split[1]);
                     str.append("-");
                     isWork = 0;

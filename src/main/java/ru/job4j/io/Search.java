@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,10 +12,11 @@ public class Search {
 
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
-            throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER.");
+            throw new IllegalArgumentException("Ошибка. Нужно передать ровно два параметра!");
         }
-        if (!args[0].equals("C:\\projects\\job4j_design")) {
-            throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER.");
+        File file = new File(args[0]);
+        if (!file.isDirectory()) {
+            throw new IllegalArgumentException("Файл по переданному пути не существует или не является каталогом. Проверьте путь!");
         }
         Path start = Paths.get(args[0]);
         search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);

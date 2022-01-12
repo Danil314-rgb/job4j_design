@@ -8,23 +8,33 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
+        if (values.get(key) == null) {
+            throw new IllegalArgumentException("У переданного ключа отсутсвует значение. Проверьте переданный ключ!");
+        }
         return values.get(key);
     }
 
     private Map<String, String> parse(String[] args) {
         if (args.length == 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Количество переданных аргументов равно ноль. Передайте аргументы!");
         }
         for (String item : args) {
+            validate(item);
             String[] split = item.split("=");
             if (split.length < 2) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Отсутствует значение у ключа. Введите значение!");
             }
             char[] ch = new char[split[0].length() - 1];
             split[0].getChars(1, split[0].length(), ch, 0);
             values.put(String.valueOf(ch), split[1]);
         }
         return values;
+    }
+
+    public static void validate(String str) {
+        if (!str.startsWith("-") || !str.contains("=") || str.indexOf("=") != str.lastIndexOf("=")) {
+            throw new IllegalArgumentException("Несоответствие шаблону -key=value. Проверьте правильность по шаблону!");
+        }
     }
 
     public static ArgsName of(String[] args) {
@@ -34,10 +44,13 @@ public class ArgsName {
     }
 
     public static void main(String[] args) {
-        ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
+        ArgsName jvm = ArgsName.of(new String[]{"-Xmx=fdsf", "-encoding=UTF-8"});
+        System.out.println(jvm.get("Xmxq"));
+
+        /*ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
         System.out.println(jvm.get("Xmx"));
 
         ArgsName zip = ArgsName.of(new String[] {"-out=project.zip", "-encoding=UTF-8"});
-        System.out.println(zip.get("out"));
+        System.out.println(zip.get("out"));*/
     }
 }

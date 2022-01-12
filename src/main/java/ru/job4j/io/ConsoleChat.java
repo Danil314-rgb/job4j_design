@@ -28,14 +28,14 @@ public class ConsoleChat {
         String question = sc.next();
         List<String> answers = readPhrases();
         logList.add(question);
-        while (!question.equals(OUT)) {
+        while (!OUT.equals(question)) {
             String answer = randomAnswer(answers);
             logList.add(answer);
             System.out.println(answer);
             question = sc.next();
             logList.add(question);
-            if (question.equals(STOP)) {
-                while (!question.equals(CONTINUE)) {
+            if (STOP.equals(question)) {
+                while (!CONTINUE.equals(question)) {
                     question = sc.next();
                     logList.add(question);
                 }
@@ -45,7 +45,7 @@ public class ConsoleChat {
 
     private String randomAnswer(List<String> list) {
         Random random = new Random();
-        return list.get(random.nextInt(list.size() - 1));
+        return list.get(random.nextInt(list.size()));
     }
 
     private List<String> readPhrases() {
@@ -68,8 +68,8 @@ public class ConsoleChat {
     }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat("C:\\projects\\job4j_design\\resources\\log.txt",
-                "C:\\projects\\job4j_design\\resources\\answer.txt");
+        ConsoleChat cc = new ConsoleChat("./resources/log.txt",
+                "./resources/answer.txt");
         cc.run();
         cc.saveLog(logList);
     }

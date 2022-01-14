@@ -10,9 +10,6 @@ public class Number {
 
     @Override
     public String toString() {
-        return "Contact{"
-                + "number='"
-                + number + '\''
-                + '}';
+        return "Contact{" + "number='" + number + '\'' + '}';
     }
 }

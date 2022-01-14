@@ -19,12 +19,6 @@ public class Phone {
 
     @Override
     public String toString() {
-        return "Phone{" +
-                "camera=" + camera +
-                ", megapixels=" + megapixels +
-                ", name='" + name + '\'' +
-                ", number=" + number +
-                ", contacts=" + Arrays.toString(contacts) +
-                '}';
+        return "Phone{" + "camera=" + camera + ", megapixels=" + megapixels + ", name='" + name + '\'' + ", number=" + number + ", contacts=" + Arrays.toString(contacts) + '}';
     }
 }

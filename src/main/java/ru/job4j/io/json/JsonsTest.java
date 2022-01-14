@@ -13,7 +13,7 @@ public class JsonsTest {
         final Gson gson = new GsonBuilder().create();
         System.out.println(gson.toJson(phone));
 
-        final String personJson =
+        final String phoneJson =
                 "{"
                         + "\"camera\":true,"
                         + "\"megapixels\":34,"
@@ -25,7 +25,7 @@ public class JsonsTest {
                         + "\"contacts\":"
                         + "[\"Bob\",\"Tom\"]"
                         + "}";
-        final Phone personMod = gson.fromJson(personJson, Phone.class);
-        System.out.println(personMod);
+        final Phone phoneMod = gson.fromJson(phoneJson, Phone.class);
+        System.out.println(phoneMod);
     }
 }

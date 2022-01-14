@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phone name="pixel">
+    <camera>true</camera>
+    <megapixels>34</megapixels>
+    <numberPhone number="+7(924)111-111-11-11"/>
+    <contacts>
+        <contact>Bob</contact>
+        <contact>Tom</contact>
+    </contacts>
+</phone>

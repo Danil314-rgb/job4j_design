@@ -1,8 +1,16 @@
 package ru.job4j.io.json;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = " ")
 public class Number {
 
-    private final String number;
+    @XmlAttribute
+    private String number;
+
+    public Number() {
+    }
 
     public Number(String number) {
         this.number = number;

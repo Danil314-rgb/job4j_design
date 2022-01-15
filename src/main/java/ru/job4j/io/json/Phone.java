@@ -1,13 +1,29 @@
 package ru.job4j.io.json;
 
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 
+@XmlRootElement(name = "phone")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Phone {
-    private final boolean camera;
-    private final byte megapixels;
-    private final String name;
-    private final Number number;
-    private final String[] contacts;
+
+    @XmlAttribute
+    private boolean camera;
+
+    @XmlAttribute
+    private byte megapixels;
+
+    @XmlAttribute
+    private String name;
+
+    @XmlElement
+    private Number number;
+
+    @XmlElement
+    private String[] contacts;
+
+    public Phone() {
+    }
 
     public Phone(boolean camera, byte megapixels, String name, Number number, String[] contacts) {
         this.camera = camera;

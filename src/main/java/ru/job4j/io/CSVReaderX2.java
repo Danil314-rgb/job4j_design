@@ -43,9 +43,7 @@ public class CSVReaderX2 {
                 new BufferedOutputStream(
                         new FileOutputStream(argsName.get("out"))
                 ))) {
-            /*String[] filterSize = argsName.get("filter").split(",");
-            int column = 0;*/
-            while (scanner.hasNext() /*& column < filterSize.length*/) {
+            while (scanner.hasNext()) {
                 StringBuilder res = new StringBuilder();
                 String text = scanner.nextLine();
                 String[] split = text.split(argsName.get("delimiter"));
@@ -57,7 +55,6 @@ public class CSVReaderX2 {
                 } else {
                     System.out.println(res);
                 }
-                /*column++;*/
             }
         } catch (Exception e) {
             e.printStackTrace();

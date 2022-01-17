@@ -31,4 +31,16 @@ public class DuplicateVisitor extends SimpleFileVisitor<Path> {
     public Map<FileProperty, List<Path>> getMap() {
         return map;
     }
+
+    public void print(Map<FileProperty, List<Path>> map) {
+        for (Map.Entry<FileProperty, List<Path>> entry : map.entrySet()) {
+            var key = entry.getKey();
+            var value = entry.getValue();
+            if (value.size() > 1) {
+                for (var item : value) {
+                    System.out.println(key.getName() + "-------->" + item);
+                }
+            }
+        }
+    }
 }

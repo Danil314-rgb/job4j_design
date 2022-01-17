@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -31,7 +32,7 @@ public class CSVReaderX2 {
                 fileArgs.toString(),
                 delimiterArgs.toString(),
                 targetArgs.toString(),
-                fileArgs.toString()
+                filterArgs.toString()
         });
         handle(argsName);
     }
@@ -42,14 +43,21 @@ public class CSVReaderX2 {
                 new BufferedOutputStream(
                         new FileOutputStream(argsName.get("out"))
                 ))) {
-            while (scanner.hasNext()) {
+            /*String[] filterSize = argsName.get("filter").split(",");
+            int column = 0;*/
+            while (scanner.hasNext() /*& column < filterSize.length*/) {
                 StringBuilder res = new StringBuilder();
                 String text = scanner.nextLine();
                 String[] split = text.split(argsName.get("delimiter"));
                 res.append(split[0]);
                 res.append(";");
                 res.append(split[1]);
-                out.println(res);
+                if (!argsName.get("out").equals("stdout")) {
+                    out.println(res);
+                } else {
+                    System.out.println(res);
+                }
+                /*column++;*/
             }
         } catch (Exception e) {
             e.printStackTrace();

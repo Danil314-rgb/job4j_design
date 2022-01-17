@@ -7,14 +7,14 @@ import java.util.*;
 public class CSVReader {
 
     public static void main(String[] args) throws Exception {
-        /*File file = new File("./resources/source.csv");
-        File target = new File("./resources/target.csv");*/
+       /* File file = new File("./resources/source.csv");
+        File target = new File("./resources/target.csv");
+*/
+       /* java -jar ./resources/job4j_design.jar -path=./resources/source.csv
+        java -jar ./resources/job4j_design.jar -path=./resources/source.csv -out=./resources/target.csv
 
-        //java -jar ./resources/job4j_design.jar -path=./resources/source.csv
-        //java -jar ./resources/job4j_design.jar -path=./resources/source.csv -out=./resources/target.csv
 
-
-        //jar -cmf CSVReader.mf csvReader.jar -C bin .
+        jar -cmf CSVReader.mf csvReader.jar -C bin .*/
         File fileArgs = new File(args[0]);
         File delimiterArgs = new File(args[1]);
         File targetArgs = new File(args[2]);

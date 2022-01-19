@@ -6,11 +6,9 @@ create table employee (
 	position text		
 );
 
-insert into employee  
- (name, age, salary, position) 
- values
- ('Bob','35', 27.000, 'Менеджер');
+insert into employee (name, age, salary, position) 
+values ('Bob','35', 27.000, 'Менеджер');
  
- update employee set name = 'Tom', age = 32
+update employee set name = 'Tom', age = 32;
 
-delete from employee
+delete from employee;

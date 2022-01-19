@@ -24,15 +24,15 @@ select * from state
 
 insert into item(name, users_id, category_id, state_id) 
 values ('Файл', 1, 1, 1)
-select * from item
+select * from item;
 
 insert into comments(name, item_id) 
 values ('Комментарий заявок', 1)
-select * from comments
+select * from comments;
 
 insert into attachs(name, item_id) 
 values ('Заявка', 1)
-select * from attachs
+select * from attachs;
 
 
 

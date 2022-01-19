@@ -43,13 +43,19 @@ public class CSVReaderX2 {
                 new BufferedOutputStream(
                         new FileOutputStream(argsName.get("out"))
                 ))) {
+            String[] filterSize = argsName.get("filter").split(",");
             while (scanner.hasNext()) {
                 StringBuilder res = new StringBuilder();
                 String text = scanner.nextLine();
                 String[] split = text.split(argsName.get("delimiter"));
-                res.append(split[0]);
-                res.append(";");
-                res.append(split[1]);
+                for (int i = 0; i < filterSize.length; i++) {
+                    if (i == filterSize.length - 1) {
+                        res.append(split[i]);
+                    } else {
+                        res.append(split[0]);
+                        res.append(";");
+                    }
+                }
                 if (!argsName.get("out").equals("stdout")) {
                     out.println(res);
                 } else {

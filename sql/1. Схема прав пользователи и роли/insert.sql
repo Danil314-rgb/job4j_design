@@ -1,21 +1,5 @@
-insert into comments(name) 
-values ('Комментарий заявок')
-select * from comments
-
-insert into attachs(name) 
-values ('Заявка')
-select * from attachs
-
-insert into items(name, comments_id, attachs_id) 
-values ('Заявка', 1, 1)
-select * from items
-
-insert into users(name, items_is) 
-values ('Пользователь', 1)
-select * from users
-
-insert into role(name, users_id) 
-values ('Роль', 2)
+insert into role(name) 
+values ('Роль')
 select * from role
 
 insert into rules(name) 
@@ -26,11 +10,38 @@ insert into role_rules(role_id, rules_id)
 values (1, 1)
 select * from role_rules
 
-insert into category(name, item_id) 
-values ('Категория', 1)
+insert into users(name, role_id) 
+values ('Пользователь', 1)
+select * from users
+
+insert into category(name) 
+values ('Категория')
 select * from category
 
-insert into state(name, item_id) 
-values ('Состояние', 1)
+insert into state(name) 
+values ('Состояние')
 select * from state
+
+insert into item(name, users_id, category_id, state_id) 
+values ('Файл', 1, 1, 1)
+select * from item
+
+insert into comments(name, item_id) 
+values ('Комментарий заявок', 1)
+select * from comments
+
+insert into attachs(name, item_id) 
+values ('Заявка', 1)
+select * from attachs
+
+
+
+
+
+
+
+
+
+
+
 

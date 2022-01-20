@@ -38,29 +38,37 @@ public class CSVReaderX2 {
     }
 
     public static void handle(ArgsName argsName) throws Exception {
+        Map<String, ArrayList<String>> map = new HashMap<>();
         Scanner scanner = new Scanner(new FileReader(argsName.get("path")));
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
                         new FileOutputStream(argsName.get("out"))
                 ))) {
-            String[] filterSize = argsName.get("filter").split(",");
+            String oneSrt = scanner.nextLine();
+            String[] splitOneStr = oneSrt.split(argsName.get("delimiter"));
+            for (var item : splitOneStr) {
+                map.put(item, new ArrayList());
+            }
+
             while (scanner.hasNext()) {
                 StringBuilder res = new StringBuilder();
                 String text = scanner.nextLine();
                 String[] split = text.split(argsName.get("delimiter"));
-                for (int i = 0; i < filterSize.length; i++) {
-                    if (i == filterSize.length - 1) {
-                        res.append(split[i]);
-                    } else {
-                        res.append(split[0]);
-                        res.append(";");
-                    }
-                }
+                map.get("name").add(split[0]);
+                map.get("age").add(split[1]);
+                map.get("last_name").add(split[2]);
+                map.get("education").add(split[3]);
+
                 if (!argsName.get("out").equals("stdout")) {
                     out.println(res);
                 } else {
                     System.out.println(res);
                 }
+            }
+
+            for (var key : map.keySet()) {
+                var value = map.get(key);
+                System.out.println(key + "--->" + value);
             }
         } catch (Exception e) {
             e.printStackTrace();

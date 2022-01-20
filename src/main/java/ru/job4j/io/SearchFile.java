@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class SearchFiles extends SimpleFileVisitor<Path> {
+public class SearchFile extends SimpleFileVisitor<Path> {
 
     Predicate<Path> predicate;
     List<Path> list = new ArrayList<>();
 
-    public SearchFiles(Predicate<Path> predicate) {
+    public SearchFile(Predicate<Path> predicate) {
         this.predicate = predicate;
     }
 

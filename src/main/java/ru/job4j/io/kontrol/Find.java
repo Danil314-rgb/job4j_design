@@ -5,14 +5,11 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Find  {
-    /*
-       -d=.
-       -n=lol.txt
-       -t=name
-       -o=./resources/result.txt
-       */
+    /*-d=. -n=lol.txt -t=name -o=./resources/result.txt*/
 
     public static void main(String[] args) throws Exception {
         if (args.length != 4) {
@@ -28,13 +25,22 @@ public class Find  {
                     .getName()
                     .equals(fullName));
         } else if (argsNames.get("t").equals("mask")) {
-            System.out.println("maskssssss");
+            /*fullName = .*.txt сейчас*/
+            Pattern pattern = Pattern.compile("\\w*");
+            result = search(start, p -> p.toFile()
+                    .getName()
+                    .equals(pattern.pattern()));
+            Matcher matcher = pattern.matcher(result.toString());
+            while (matcher.find()) {
+                result.forEach(System.out::println);
+            }
+
         }
 
         for (var item : result) {
             System.out.println(item);
         }
-        writeToTxt(result, resultTxt);
+        /*writeToTxt(result, resultTxt);*/
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {

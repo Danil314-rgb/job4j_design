@@ -60,6 +60,10 @@ public class Find {
         if (!file.exists() || !file.isDirectory()) {
             throw new IllegalArgumentException("Файл по переданному пути не существует или не является каталогом. Проверьте путь!");
         }
+
+        if (!("name").equals(argsNames.get("t")) && !("mask").equals(argsNames.get("t"))) {
+            throw new IllegalArgumentException("Критерий поиска введён не верно. Введите либо name, либо mask!");
+        }
     }
 }
 

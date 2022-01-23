@@ -9,11 +9,12 @@ import java.util.*;
 public class CSVReaderX2 {
 
     public static void main(String[] args) throws Exception {
-
-        File fileArgs = new File(args[0]);
-        File delimiterArgs = new File(args[1]);
-        File targetArgs = new File(args[2]);
-        File filterArgs = new File(args[3]);
+        /*
+        -path=./resources/source.csv
+        -delimiter=";"
+        -out=./resources/target.csv
+        -filter="age,name"
+        */
 
         if (args.length != 4) {
             throw new IllegalArgumentException(
@@ -26,19 +27,20 @@ public class CSVReaderX2 {
                 "Jack;25;Johnson;Undergraduate",
                 "William;30;Brown;Secondary special"
         );
-        ArgsName argsFile = ArgsName.of(new String[]{fileArgs.toString()});
+        ArgsName argsFile = ArgsName.of(new String[]{args[0]});
         Files.writeString(Paths.get(argsFile.get("path")), data);
         ArgsName argsName = ArgsName.of(new String[]{
-                fileArgs.toString(),
-                delimiterArgs.toString(),
-                targetArgs.toString(),
-                filterArgs.toString()
+                args[0],
+                args[1],
+                args[2],
+                args[3]
         });
         handle(argsName);
     }
 
     public static void handle(ArgsName argsName) throws Exception {
         Map<String, ArrayList<String>> map = new HashMap<>();
+        Map<Integer, String> heads = new HashMap<>();
         Scanner scanner = new Scanner(new FileReader(argsName.get("path")));
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
@@ -46,30 +48,43 @@ public class CSVReaderX2 {
                 ))) {
             String oneSrt = scanner.nextLine();
             String[] splitOneStr = oneSrt.split(argsName.get("delimiter"));
+            int index = 0;
             for (var item : splitOneStr) {
-                map.put(item, new ArrayList());
+                heads.put(index, item);
+                map.put(item, new ArrayList<>());
+                index++;
             }
 
             while (scanner.hasNext()) {
-                StringBuilder res = new StringBuilder();
                 String text = scanner.nextLine();
                 String[] split = text.split(argsName.get("delimiter"));
-                map.get("name").add(split[0]);
-                map.get("age").add(split[1]);
-                map.get("last_name").add(split[2]);
-                map.get("education").add(split[3]);
-
-                if (!argsName.get("out").equals("stdout")) {
-                    out.println(res);
-                } else {
-                    System.out.println(res);
+                for (int i = 0; i < split.length; i++) {
+                    map.get(heads.get(i)).add(split[i]);
                 }
             }
+            String[] filterArgs = argsName.get("filter").split(",");
 
-            for (var key : map.keySet()) {
-                var value = map.get(key);
-                System.out.println(key + "--->" + value);
+            StringBuilder res = new StringBuilder();
+            StringBuilder arg = new StringBuilder();
+            for (String filer : filterArgs) {
+                for (var key : map.keySet()) {
+                    if (key.equals(filer)) {
+                        res.append(key);
+                        res.append(";");
+                        for (var item : map.get(key)) {
+                            arg.append(item);
+                            arg.append(";");
+                        }
+                    }
+                }
             }
+            out.println(res);
+            out.println(arg);
+            System.out.println(res);
+            System.out.println(arg);
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

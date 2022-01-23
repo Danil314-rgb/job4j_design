@@ -12,8 +12,8 @@ public class Find {
 
     public static void main(String[] args) throws Exception {
         Find find = new Find();
-        checkArgs(args);
         ArgsNames argsNames = ArgsNames.of(args);
+        checkArgs(args, argsNames);
         find.writeToTxt(searchAndWriteToList(argsNames, find), Paths.get(argsNames.get("o")));
     }
 
@@ -52,9 +52,13 @@ public class Find {
         }
     }
 
-    public static void checkArgs(String[] args) {
+    public static void checkArgs(String[] args, ArgsNames argsNames) {
         if (args.length != 4) {
             throw new IllegalArgumentException("Ошибка. Нужно передать ровно четыре параметра!");
+        }
+        File file = new File(argsNames.get("d"));
+        if (!file.exists() || !file.isDirectory()) {
+            throw new IllegalArgumentException("Файл по переданному пути не существует или не является каталогом. Проверьте путь!");
         }
     }
 }

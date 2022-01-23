@@ -1,3 +1,21 @@
+insert into onwer (name)
+values ('Tom');
+
+insert into onwer (name)
+values ('Bob');
+
+insert into phone (name, onwer_id)
+values ('Samsung S25', 1);
+
+insert into phone (name, onwer_id)
+values ('Samsung S21', 1);
+
+insert into phone (name, onwer_id)
+values ('Iphone 12', 2);
+
+insert into phone (name, onwer_id)
+values ('Iphone 12', 2);
+
 create table onwer(
 	id serial primary key,
 	name text

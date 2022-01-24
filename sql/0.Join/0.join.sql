@@ -47,13 +47,13 @@ left join emploers e
 on e.department_id = d.id
 where e.department_id is null;
 
-select * from emploers e
+select e.id, e.name, e.department_id, d.name from emploers e
 left join departments d
-on e.id = d.id;
+on d.id = e.department_id;
 
-select * from emploers e
-right join departments d
-on e.id = d.id;
+select e.id, e.name, e.department_id, d.name from departments d
+right join emploers e
+on d.id = e.department_id;
 
 create table teens(
 	id serial primary key,

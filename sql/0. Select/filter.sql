@@ -10,8 +10,6 @@ create table product(
 	expired_date timestamp,
 	price float
 );
-select * from product;
-select * from type;
 
 insert into type (name)
 values ('Сыр');
@@ -40,17 +38,21 @@ values ('Пюре - мороженое', 4, date '2022-01-20', 220);
 insert into product (name, type_id, expired_date, price)
 values ('Сыр тёртый', 1, date '2022-01-31', 240);
 
-select * from product
-where type_id = 1;
+select p.name
+from product p
+join type t
+on p.type_id = t.id
+group by p.name, t.name
+having t.name like 'Сыр';
 
 select * from product 
 where name like '%мороженое%';
 
 select * from product
-where expired_date < '2022-01-23';
+where expired_date < current_date;
 
-select max(price)
-from product;
+select * from product
+where price = (select max(price) from product);
 
 select t.name, count(p.name)
 from product p

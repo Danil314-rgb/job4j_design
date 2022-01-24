@@ -1,6 +1,5 @@
 package ru.job4j.io;
 
-import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,12 +8,7 @@ import java.util.*;
 public class CSVReaderX2 {
 
     public static void main(String[] args) throws Exception {
-        /*
-        -path=./resources/source.csv
-        -delimiter=";"
-        -out=./resources/target.csv
-        -filter="age,name"
-        */
+        /*TODO заполнение edit configuration: -path=./resources/source.csv -delimiter=";" -out=./resources/target.csv -filter="age,name"*/
 
         if (args.length != 4) {
             throw new IllegalArgumentException(
@@ -54,7 +48,6 @@ public class CSVReaderX2 {
                 map.put(item, new ArrayList<>());
                 index++;
             }
-
             while (scanner.hasNext()) {
                 String text = scanner.nextLine();
                 String[] split = text.split(argsName.get("delimiter"));
@@ -63,28 +56,18 @@ public class CSVReaderX2 {
                 }
             }
             String[] filterArgs = argsName.get("filter").split(",");
-
             StringBuilder res = new StringBuilder();
-            StringBuilder arg = new StringBuilder();
-            for (String filer : filterArgs) {
-                for (var key : map.keySet()) {
-                    if (key.equals(filer)) {
-                        res.append(key);
-                        res.append(";");
-                        for (var item : map.get(key)) {
-                            arg.append(item);
-                            arg.append(";");
-                        }
-                    }
+            for (var key : filterArgs) {
+                res.append(key + ";");
+            }
+            res.append(System.lineSeparator());
+            for (int i = 0; i < map.get(filterArgs[0]).size(); i++) {
+                for (var key : filterArgs) {
+                    res.append(map.get(key).get(i) + ";");
                 }
+                res.append(System.lineSeparator());
             }
             out.println(res);
-            out.println(arg);
-            System.out.println(res);
-            System.out.println(arg);
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

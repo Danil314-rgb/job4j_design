@@ -32,47 +32,43 @@ public class TableEditor implements AutoCloseable {
             prop.load(fileReader);
             TableEditor tableEditor = new TableEditor(prop);
             try (Connection connection = tableEditor.connection) {
-                tableEditor.createStat(nameTable);
+                tableEditor.createTable(nameTable);
+                tableEditor.addColumn(nameTable, "name", "text");
+                tableEditor.renameColumn(nameTable, "name", "surname");
+                tableEditor.dropColumn(nameTable, "surname");
+                tableEditor.dropTable(nameTable);
+
             }
         }
     }
 
-    public void createStat(String nameTable) throws Exception {
+    public void createStat(String sql) throws Exception {
         try (Statement statement = connection.createStatement()) {
-            statement.execute(createTable(nameTable));
-            System.out.println(getTableScheme(connection, nameTable));
-
-            statement.execute(addColumn(nameTable, "name", "text"));
-            System.out.println(getTableScheme(connection, nameTable));
-
-            statement.execute(renameColumn(nameTable, "name", "surname"));
-            System.out.println(getTableScheme(connection, nameTable));
-
-            statement.execute(dropColumn(nameTable, "surname"));
-            System.out.println(getTableScheme(connection, nameTable));
-
-            statement.execute(dropTable(nameTable));
+            statement.execute(sql);
         }
     }
-
-    public String createTable(String tableName) {
-        return String.format("create table if not exists %s(%s);", tableName, "id serial primary key");
+    public void createTable(String tableName) throws Exception {
+        createStat(String.format("create table if not exists %s(%s);", tableName, "id serial primary key"));
+        System.out.println(getTableScheme(connection, tableName));
     }
 
-    public String dropTable(String tableName) {
-        return String.format("drop table if exists %s cascade;", tableName);
+    public void dropTable(String tableName) throws Exception {
+        createStat(String.format("drop table if exists %s cascade;", tableName));
     }
 
-    public String addColumn(String tableName, String columnName, String type) {
-        return String.format("alter table %s add column %s %s", tableName, columnName, type);
+    public void addColumn(String tableName, String columnName, String type) throws Exception {
+        createStat(String.format("alter table %s add column %s %s", tableName, columnName, type));
+        System.out.println(getTableScheme(connection, tableName));
     }
 
-    public String dropColumn(String tableName, String columnName) {
-        return String.format("alter table %s drop column %s;", tableName, columnName);
+    public void dropColumn(String tableName, String columnName) throws Exception {
+        createStat(String.format("alter table %s drop column %s;", tableName, columnName));
+        System.out.println(getTableScheme(connection, tableName));
     }
 
-    public String renameColumn(String tableName, String columnName, String newColumnName) {
-        return String.format("alter table %s rename column %s to %s;", tableName, columnName, newColumnName);
+    public void renameColumn(String tableName, String columnName, String newColumnName) throws Exception {
+        createStat(String.format("alter table %s rename column %s to %s;", tableName, columnName, newColumnName));
+        System.out.println(getTableScheme(connection, tableName));
     }
 
     public static String getTableScheme(Connection connection, String tableName) throws Exception {
@@ -100,6 +96,4 @@ public class TableEditor implements AutoCloseable {
             connection.close();
         }
     }
-
-
 }

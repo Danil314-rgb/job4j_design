@@ -75,17 +75,17 @@ join transmission t
 on c.body_id = t.id;
 
 select b.id, b.type, c.name from body b
-full join  car c
+left join  car c
 on c.body_id = b.id
 where c.name is null;
 
 select e.id, e.power, c.name from engine e
-full join car c 
+left join car c 
 on c.engine_id = e.id
 where c.name is null;
 
 select t.id, t.total_gears, c.name from transmission t
-full join car c 
+left join car c 
 on c.transmission_id = t.id
 where c.name is null;
 

@@ -30,14 +30,12 @@ public class TableEditor implements AutoCloseable {
             String nameTable = "demo_table";
             Properties prop = new Properties();
             prop.load(fileReader);
-            TableEditor tableEditor = new TableEditor(prop);
-            try (Connection connection = tableEditor.connection) {
+            try (TableEditor tableEditor = new TableEditor(prop)) {
                 tableEditor.createTable(nameTable);
                 tableEditor.addColumn(nameTable, "name", "text");
                 tableEditor.renameColumn(nameTable, "name", "surname");
                 tableEditor.dropColumn(nameTable, "surname");
                 tableEditor.dropTable(nameTable);
-
             }
         }
     }

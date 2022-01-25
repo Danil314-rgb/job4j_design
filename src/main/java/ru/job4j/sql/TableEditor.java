@@ -1,11 +1,7 @@
 package ru.job4j.sql;
 
-import ru.job4j.io.Config;
-
-import java.io.File;
 import java.io.FileReader;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.Properties;
@@ -16,13 +12,47 @@ public class TableEditor implements AutoCloseable {
     private Connection connection;
     private Properties properties;
 
-    public TableEditor(Properties properties) {
+    public TableEditor(Properties properties) throws Exception {
         this.properties = properties;
-        initConnection();
+        connection = initConnection();
     }
 
-    private void initConnection() {
-        connection = null;
+    private Connection initConnection() throws Exception {
+        Class.forName(properties.getProperty("driver"));
+        String url = properties.getProperty("url");
+        String login = properties.getProperty("login");
+        String password = properties.getProperty("password");
+        return DriverManager.getConnection(url, login, password);
+    }
+
+    public static void main(String[] args) throws Exception {
+        try (FileReader fileReader = new FileReader("./resources/app.properties")) {
+            String nameTable = "demo_table";
+            Properties prop = new Properties();
+            prop.load(fileReader);
+            TableEditor tableEditor = new TableEditor(prop);
+            try (Connection connection = tableEditor.connection) {
+                tableEditor.createStat(nameTable);
+            }
+        }
+    }
+
+    public void createStat(String nameTable) throws Exception {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(createTable(nameTable));
+            System.out.println(getTableScheme(connection, nameTable));
+
+            statement.execute(addColumn(nameTable, "name", "text"));
+            System.out.println(getTableScheme(connection, nameTable));
+
+            statement.execute(renameColumn(nameTable, "name", "surname"));
+            System.out.println(getTableScheme(connection, nameTable));
+
+            statement.execute(dropColumn(nameTable, "surname"));
+            System.out.println(getTableScheme(connection, nameTable));
+
+            statement.execute(dropTable(nameTable));
+        }
     }
 
     public String createTable(String tableName) {
@@ -71,40 +101,5 @@ public class TableEditor implements AutoCloseable {
         }
     }
 
-    private static Connection getConnection() throws Exception {
-        Config config = new Config("./resources/app.properties");
-        config.load();
-        Class.forName(config.value("driver"));
-        String url = config.value("url");
-        String login = config.value("login");
-        String password = config.value("password");
-        return DriverManager.getConnection(url, login, password);
-    }
 
-    public static void main(String[] args) throws Exception {
-        File file = new File("./resources/app.properties");
-        Properties properties = new Properties();
-        properties.load(new FileReader(file));
-        TableEditor tableEditor = new TableEditor(properties);
-        String nameTable = "demon_table";
-        try (Connection connection = getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-
-                statement.execute(tableEditor.createTable(nameTable));
-                System.out.println(getTableScheme(connection, nameTable));
-
-                statement.execute(tableEditor.addColumn(nameTable, "name", "text"));
-                System.out.println(getTableScheme(connection, nameTable));
-
-                statement.execute(tableEditor.renameColumn(nameTable, "name", "surname"));
-                System.out.println(getTableScheme(connection, nameTable));
-
-                statement.execute(tableEditor.dropColumn(nameTable, "surname"));
-                System.out.println(getTableScheme(connection, nameTable));
-
-                statement.execute(tableEditor.dropTable(nameTable));
-                System.out.println(getTableScheme(connection, nameTable));
-            }
-        }
-    }
 }

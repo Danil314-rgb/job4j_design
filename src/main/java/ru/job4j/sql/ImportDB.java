@@ -3,10 +3,7 @@ package ru.job4j.sql;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -42,7 +39,8 @@ public class ImportDB {
         )) {
             for (User user : users) {
                 try (PreparedStatement statement = cnt.prepareStatement(
-                        "insert into users(name, email) values (?, ?)")) {
+                        "insert into users(name, email) values (?, ?)",
+                             Statement.RETURN_GENERATED_KEYS)) {
                     statement.setString(1, user.name);
                     statement.setString(2, user.email);
                     statement.execute();
